@@ -16,6 +16,7 @@ import {HomeScreen} from './screens/Home';
 import {ExercisesListScreen} from './screens/ExerciseList';
 import {Provider} from 'react-redux';
 import {store} from './store';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -27,6 +28,7 @@ const App = () => {
   return (
     <>
       <Provider store={store}>
+        {/* <SafeAreaView> */}
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
@@ -37,6 +39,7 @@ const App = () => {
             <Stack.Screen name="Exercises" component={ExercisesListScreen} />
           </Stack.Navigator>
         </NavigationContainer>
+        {/* </SafeAreaView> */}
       </Provider>
     </>
   );
