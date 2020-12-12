@@ -6,7 +6,7 @@ type ExercisesSliceState = {
 };
 
 const initialState: ExercisesSliceState = {
-  items: [new Exercise('Scales'), new Exercise('Having Fun')],
+  items: [],
 };
 
 const exercisesSlice = createSlice({

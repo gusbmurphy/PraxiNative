@@ -1,3 +1,3 @@
 import {Exercise} from './exercise';
 
-export {Exercise};
+export type {Exercise};

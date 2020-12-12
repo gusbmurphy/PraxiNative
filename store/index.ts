@@ -1,6 +1,6 @@
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 import {combineReducers} from 'redux';
-import exercisesReducer from './slices/exercises';
+import exercisesReducer from './slices/exercises-slice';
 
 const rootReducer = combineReducers({
   exercises: exercisesReducer,
