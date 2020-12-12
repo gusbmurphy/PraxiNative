@@ -14,6 +14,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from './screens/Home';
 import {ExercisesListScreen} from './screens/exercise-list';
+import {Provider} from 'react-redux';
+import {store} from './store';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -24,16 +26,18 @@ const Stack = createStackNavigator<RootStackParamList>();
 const App = () => {
   return (
     <>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{title: 'Welcome'}}
-          />
-          <Stack.Screen name="Exercises" component={ExercisesListScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{title: 'Welcome'}}
+            />
+            <Stack.Screen name="Exercises" component={ExercisesListScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </>
   );
 };
