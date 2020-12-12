@@ -3,7 +3,14 @@ import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {Exercise} from '../types';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
-import {Button, ListRenderItem, ListRenderItemInfo, Text} from 'react-native';
+import {
+  Button,
+  ListRenderItem,
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {exerciseActions} from '../store/slices/exercises-slice';
 import {v4 as uuid} from 'uuid';
 
@@ -20,10 +27,14 @@ export const ExercisesListScreen = () => {
 
   return (
     <>
-      <FlatList<Exercise> data={exercises} renderItem={ExerciseListEntry} />
+      <FlatList<Exercise>
+        data={exercises}
+        renderItem={ExerciseListItem}
+        ItemSeparatorComponent={ExerciseListSeperator}
+      />
       <Button
         onPress={() =>
-          dispatch(exerciseActions.addExercise({id: uuid(), title: "NewTime"}))
+          dispatch(exerciseActions.addExercise({id: uuid(), title: 'NewTime'}))
         }
         title="Hello!"
       />
@@ -31,12 +42,30 @@ export const ExercisesListScreen = () => {
   );
 };
 
-const ExerciseListEntry: ListRenderItem<Exercise> = (
+const ExerciseListItem: ListRenderItem<Exercise> = (
   info: ListRenderItemInfo<Exercise>,
 ) => {
   return (
     <TouchableOpacity>
-      <Text>{info.item.title}</Text>
+      <Text style={styles.listItem}>{info.item.title}</Text>
     </TouchableOpacity>
   );
 };
+
+const ExerciseListSeperator = () => {
+  return <View style={styles.listSeperator} />;
+};
+
+const styles = StyleSheet.create({
+  listItem: {
+    fontSize: 18,
+    backgroundColor: '#f9f9f9',
+    padding: 10,
+    paddingLeft: 20,
+  },
+  listSeperator: {
+    backgroundColor: '#bfbfbf',
+    height: 1,
+    marginVertical: 10,
+  },
+});
