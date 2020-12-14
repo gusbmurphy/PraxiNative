@@ -16,6 +16,16 @@ const exercisesSlice = createSlice({
     addExercise(state, action: PayloadAction<Exercise>) {
       state.items.push(action.payload);
     },
+    modifyExercise(
+      state,
+      action: PayloadAction<{
+        withId: string;
+        newExercise: Exercise;
+      }>,
+    ) {
+      let i = state.items.findIndex((e) => e.id === action.payload.withId);
+      state.items[i] = action.payload.newExercise;
+    },
   },
 });
 

@@ -12,17 +12,19 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {HomeScreen} from './screens/Home';
-import {ExercisesListScreen} from './screens/ExerciseList';
+import {HomeScreen} from './components/screens/Home';
+import {ExercisesListScreen} from './components/screens/ExerciseList';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {ExerciseEditScreen} from './components/screens/ExerciseEdit';
 
 export type RootStackParamList = {
   Home: undefined;
   Exercises: undefined;
+  ExerciseEdit: {id: string};
 };
-const Stack = createStackNavigator<RootStackParamList>();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (
@@ -30,14 +32,15 @@ const App = () => {
       <Provider store={store}>
         {/* <SafeAreaView> */}
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
+          <RootStack.Navigator>
+            <RootStack.Screen
               name="Home"
               component={HomeScreen}
               options={{title: 'Welcome'}}
             />
-            <Stack.Screen name="Exercises" component={ExercisesListScreen} />
-          </Stack.Navigator>
+            <RootStack.Screen name="Exercises" component={ExercisesListScreen} />
+            <RootStack.Screen name="ExerciseEdit" component={ExerciseEditScreen} />
+          </RootStack.Navigator>
         </NavigationContainer>
         {/* </SafeAreaView> */}
       </Provider>
