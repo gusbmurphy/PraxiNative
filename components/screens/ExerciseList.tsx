@@ -17,7 +17,7 @@ import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import {RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {appStyles} from '../app-styles';
-import {FooterIcon} from '../utility/FooterIcon';
+import {FooterIcon} from '../utility/Icons';
 
 export const ExercisesListScreen = ({
   navigation,
@@ -53,7 +53,11 @@ export const ExercisesListScreen = ({
         <TouchableOpacity
           onPress={() => {
             dispatch(
-              exerciseActions.addExercise({id: uuid(), title: 'NewTime'}),
+              exerciseActions.addExercise({
+                id: uuid(),
+                title: 'NewTime',
+                tags: [],
+              }),
             );
             navigation.navigate('Exercises');
           }}>

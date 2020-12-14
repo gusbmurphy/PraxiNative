@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Tag} from '../../types';
+import {v4 as uuid} from 'uuid';
 
 type TagsSliceState = {
   items: Tag[];
@@ -13,8 +14,12 @@ const tagsSlice = createSlice({
   name: 'tags',
   initialState,
   reducers: {
-    addTag(state, action: PayloadAction<Tag>) {
-      state.items.push(action.payload);
+    addTag(state, action: PayloadAction<{title: string; color: string}>) {
+      state.items.push({
+        title: action.payload.title,
+        color: action.payload.color,
+        id: uuid(),
+      });
     },
     modifyTag(
       state,
