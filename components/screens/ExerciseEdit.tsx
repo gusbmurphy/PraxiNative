@@ -1,6 +1,6 @@
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {FunctionComponent, useLayoutEffect, useState} from 'react';
 import {Button, Modal, StyleSheet, Text, View} from 'react-native';
 import {
   Switch,
@@ -123,35 +123,43 @@ export const ExerciseEditScreen = (
     );
   };
 
-  return (
-    <>
-      <View style={{flex: 1}}>
-        <TagsModal />
-        <View style={{flex: 1}}>
-          <View style={[styles.editField, appStyles.listItem]}>
-            <Text style={appStyles.bodyText}>Title: </Text>
-            <TextInput
-              value={draftTitle}
-              onChangeText={(text) => setDraftTitle(text)}
-              style={appStyles.bodyText}
-            />
-          </View>
-          <View style={[styles.editField, appStyles.listItem]}>
-            <Text style={appStyles.bodyText}>Tags: </Text>
-            {draftTagIds.map((tagId) => {
-              return (
-                <Text style={appStyles.bodyText} key={tagId}>
-                  {allTags.find((tag) => tag.id === tagId)?.title}
-                </Text>
-              );
-            })}
-            <TouchableOpacity onPress={() => setTagModalVisible(true)}>
-              <InlineIcon icon={faPlusCircle} />
-            </TouchableOpacity>
-          </View>
-        </View>
+  const EditField: FunctionComponent<{fieldName: string}> = ({
+    fieldName,
+    children,
+  }) => {
+    return (
+      <View style={[styles.editField, appStyles.listItem]}>
+        <Text style={appStyles.bodyText}>{fieldName}: </Text>
+        {children}
       </View>
-    </>
+    );
+  };
+
+  return (
+    <View style={{flex: 1}}>
+      <TagsModal />
+      <View style={{flex: 1}}>
+        <EditField fieldName={'Title'}>
+          <TextInput
+            value={draftTitle}
+            onChangeText={(text) => setDraftTitle(text)}
+            style={appStyles.bodyText}
+          />
+        </EditField>
+        <EditField fieldName={'Tags'}>
+          {draftTagIds.map((tagId) => {
+            return (
+              <Text style={appStyles.bodyText} key={tagId}>
+                {allTags.find((tag) => tag.id === tagId)?.title}
+              </Text>
+            );
+          })}
+          <TouchableOpacity onPress={() => setTagModalVisible(true)}>
+            <InlineIcon icon={faPlusCircle} />
+          </TouchableOpacity>
+        </EditField>
+      </View>
+    </View>
   );
 };
 
