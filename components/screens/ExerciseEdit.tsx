@@ -19,11 +19,15 @@ import {InlineIcon} from '../utility/Icons';
 export const ExerciseEditScreen = (
   props: StackScreenProps<RootStackParamList, 'ExerciseEdit'>,
 ) => {
-  const [draftExercise, setDraftExercise] = useState(
-    useSelector((state: RootState) =>
-      state.exercises.items.find((e) => e.id === props.route.params.id),
-    ),
+  const exerciseId = props.route.params.id;
+  const originalExercise = useSelector((state: RootState) =>
+    state.exercises.items.find((e) => e.id === exerciseId),
   );
+
+  const [draftTitle, setDraftTitle] = useState(originalExercise!.title);
+  const [draftTagIds, setDraftTagIds] = useState(originalExercise!.tagIds);
+
+  const allTags = useSelector<RootState, Tag[]>((state) => state.tags.items);
   const [tagModalVisible, setTagModalVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -35,8 +39,12 @@ export const ExerciseEditScreen = (
           onPress={() =>
             dispatch(
               exerciseActions.modifyExercise({
-                withId: props.route.params.id,
-                newExercise: draftExercise!,
+                withId: exerciseId,
+                newExercise: {
+                  id: originalExercise!.id,
+                  title: draftTitle,
+                  tagIds: draftTagIds,
+                },
               }),
             )
           }
@@ -47,11 +55,8 @@ export const ExerciseEditScreen = (
   });
 
   const TagsModal = () => {
-    const allTags = useSelector<RootState, Tag[]>((state) => state.tags.items);
     const [draftTagTitle, setDraftTagTitle] = useState('');
     const [showNewTagEdit, setShowNewTagEdit] = useState(false);
-
-    console.log(allTags);
 
     return (
       <Modal
@@ -63,6 +68,21 @@ export const ExerciseEditScreen = (
           {allTags.map((tag) => {
             return (
               <View style={{flexDirection: 'row'}} key={tag.id}>
+                <Switch
+                  onValueChange={(isOn) => {
+                    if (isOn) {
+                      setDraftTagIds([...draftTagIds, tag.id]);
+                    } else {
+                      let i = draftTagIds.findIndex(
+                        (tagId) => tagId === tag.id,
+                      );
+                      const newDraftTagIds = [...draftTagIds];
+                      newDraftTagIds.splice(i, 1);
+                      setDraftTagIds(newDraftTagIds);
+                    }
+                  }}
+                  value={draftTagIds.includes(tag.id)}
+                />
                 <Text>{tag.title}</Text>
               </View>
             );
@@ -111,20 +131,19 @@ export const ExerciseEditScreen = (
           <View style={[styles.editField, appStyles.listItem]}>
             <Text style={appStyles.bodyText}>Title: </Text>
             <TextInput
-              value={draftExercise?.title}
-              onChangeText={(text) =>
-                setDraftExercise({
-                  ...draftExercise!,
-                  title: text,
-                })
-              }
+              value={draftTitle}
+              onChangeText={(text) => setDraftTitle(text)}
               style={appStyles.bodyText}
             />
           </View>
           <View style={[styles.editField, appStyles.listItem]}>
             <Text style={appStyles.bodyText}>Tags: </Text>
-            {draftExercise?.tags.map((tag) => {
-              <Text>{tag.title}</Text>;
+            {draftTagIds.map((tagId) => {
+              return (
+                <Text key={tagId}>
+                  {allTags.find((tag) => tag.id === tagId)?.title}
+                </Text>
+              );
             })}
             <TouchableOpacity onPress={() => setTagModalVisible(true)}>
               <InlineIcon icon={faPlusCircle} />

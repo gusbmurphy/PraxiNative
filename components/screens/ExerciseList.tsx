@@ -54,9 +54,7 @@ export const ExercisesListScreen = ({
           onPress={() => {
             dispatch(
               exerciseActions.addExercise({
-                id: uuid(),
                 title: 'NewTime',
-                tags: [],
               }),
             );
             navigation.navigate('Exercises');

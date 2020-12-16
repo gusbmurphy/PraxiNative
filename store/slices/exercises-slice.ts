@@ -1,5 +1,7 @@
+import {HeaderTitle} from '@react-navigation/stack';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Exercise} from '../../types';
+import {v4 as uuid} from 'uuid';
 
 type ExercisesSliceState = {
   items: Exercise[];
@@ -13,8 +15,8 @@ const exercisesSlice = createSlice({
   name: 'exercises',
   initialState,
   reducers: {
-    addExercise(state, action: PayloadAction<Exercise>) {
-      state.items.push(action.payload);
+    addExercise(state, action: PayloadAction<{title: string}>) {
+      state.items.push({title: action.payload.title, id: uuid(), tagIds: []});
     },
     modifyExercise(
       state,
