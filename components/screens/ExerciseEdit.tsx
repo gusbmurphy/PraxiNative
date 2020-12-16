@@ -140,7 +140,7 @@ export const ExerciseEditScreen = (
             <Text style={appStyles.bodyText}>Tags: </Text>
             {draftTagIds.map((tagId) => {
               return (
-                <Text key={tagId}>
+                <Text style={appStyles.bodyText} key={tagId}>
                   {allTags.find((tag) => tag.id === tagId)?.title}
                 </Text>
               );

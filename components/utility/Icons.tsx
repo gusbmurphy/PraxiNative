@@ -1,7 +1,7 @@
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 export const FooterIcon = ({icon}: {icon: IconProp}) => {
   return (
@@ -11,7 +11,9 @@ export const FooterIcon = ({icon}: {icon: IconProp}) => {
 
 export const InlineIcon = ({icon}: {icon: IconProp}) => {
   return (
-    <FontAwesomeIcon icon={icon} style={styles.inlineButton}></FontAwesomeIcon>
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <FontAwesomeIcon icon={icon} style={styles.inlineButton} size={20} />
+    </View>
   );
 };
 
@@ -23,5 +25,6 @@ const styles = StyleSheet.create({
   },
   inlineButton: {
     color: '#3192ff',
+    marginHorizontal: 10,
   },
 });
