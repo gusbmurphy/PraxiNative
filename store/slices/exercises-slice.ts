@@ -16,7 +16,12 @@ const exercisesSlice = createSlice({
   initialState,
   reducers: {
     addExercise(state, action: PayloadAction<{title: string}>) {
-      state.items.push({title: action.payload.title, id: uuid(), tagIds: []});
+      state.items.push({
+        title: action.payload.title,
+        id: uuid(),
+        tagIds: [],
+        parameters: [],
+      });
     },
     modifyExercise(
       state,
