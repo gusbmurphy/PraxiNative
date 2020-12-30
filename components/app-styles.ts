@@ -23,16 +23,18 @@ export const appStyles = StyleSheet.create({
     marginVertical: 10,
   },
   centeredView: {
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+  modalView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  modalView: {
-    margin: 20,
+    //margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -41,6 +43,5 @@ export const appStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    position: 'absolute',
   },
 });
