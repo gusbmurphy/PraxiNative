@@ -17,7 +17,7 @@ import {ExercisesListScreen} from './components/screens/ExerciseList';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ExerciseEditScreen} from './components/screens/ExerciseEdit';
+import {ExerciseEditScreen} from './components/screens/exercise-edit';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -38,8 +38,14 @@ const App = () => {
               component={HomeScreen}
               options={{title: 'Welcome'}}
             />
-            <RootStack.Screen name="Exercises" component={ExercisesListScreen} />
-            <RootStack.Screen name="ExerciseEdit" component={ExerciseEditScreen} />
+            <RootStack.Screen
+              name="Exercises"
+              component={ExercisesListScreen}
+            />
+            <RootStack.Screen
+              name="ExerciseEdit"
+              component={ExerciseEditScreen}
+            />
           </RootStack.Navigator>
         </NavigationContainer>
         {/* </SafeAreaView> */}

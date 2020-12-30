@@ -8,12 +8,12 @@ export interface RangeExerciseParameter extends BaseExerciseParameter {
   max: number;
 }
 
-export type SetValue = string;
-export interface SetExerciseParameter<T extends SetValue>
+export type CollectionValue = string;
+export interface CollectionExerciseParameter<T extends CollectionValue>
   extends BaseExerciseParameter {
   values: T[];
 }
 
 export type ExerciseParameter =
   | RangeExerciseParameter
-  | SetExerciseParameter<any>;
+  | CollectionExerciseParameter<any>;

@@ -3,7 +3,7 @@ import {Tag} from './tag';
 import {
   ExerciseParameter,
   RangeExerciseParameter,
-  SetExerciseParameter,
+  CollectionExerciseParameter,
 } from './exercise-parameter';
 
 export type {
@@ -11,5 +11,5 @@ export type {
   Tag,
   ExerciseParameter,
   RangeExerciseParameter,
-  SetExerciseParameter,
+  CollectionExerciseParameter,
 };
