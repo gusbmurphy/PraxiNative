@@ -43,8 +43,8 @@ const CollectionParameterEditModal = ({
           />
         </EditField>
         <EditField fieldName={'Values'}>
-          {draftValues.map((value) => {
-            return <Text>{value}</Text>;
+          {draftValues.map((value, i) => {
+            return <Text key={value + i}>{value}</Text>;
           })}
           {shouldShowNewValueField ? (
             <TextInput
