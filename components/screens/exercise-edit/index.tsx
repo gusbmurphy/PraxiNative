@@ -1,19 +1,17 @@
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {FunctionComponent, useLayoutEffect, useState} from 'react';
-import {Button, Modal, StyleSheet, Text, View} from 'react-native';
-import {
-  Switch,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import React, {useLayoutEffect, useState} from 'react';
+import {Button, Text, View} from 'react-native';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
 import {RootState} from '../../../store';
 import {exerciseActions} from '../../../store/slices/exercises-slice';
-import {tagsActions} from '../../../store/slices/tags-slice';
 import {CollectionExerciseParameter, Tag} from '../../../types';
-import {ExerciseParameter, CollectionValue} from '../../../types/exercise-parameter';
+import {
+  ExerciseParameter,
+  CollectionValue,
+} from '../../../types/exercise-parameter';
 import {appStyles} from '../../app-styles';
 import {InlineIcon} from '../../utility/Icons';
 import {EditField} from './EditField';
@@ -46,18 +44,27 @@ export const ExerciseEditScreen = (
   /* Since we only have one parameter editing modal, we will need to also
   be able to pass it a different parameter to edit, and a different function
   to set that parameter, when we go to make it visible. */
-  // Currently we are only working with 'set' type parameters, don't get confused with the word "set" being used so much!
-  const [setTypeParameterToEdit, setSetTypeParameterToEdit] = useState<
+  const [collectionParameterToEdit, setCollectionParameterToEdit] = useState<
     CollectionExerciseParameter<CollectionValue>
   >({
     title: 'New Set',
     id: uuid(),
     values: [],
   });
-  // const [
-  //   setTypeParameterToEditSetFunction,
-  //   setSetTypeParameterToEditSetFunction,
-  // ] = useState<(newParameter: CollectionExerciseParameter<CollectionValue>) => void>();
+  const [, setCollectionParameterToEditSetFunction] = useState<
+    (newParameter: CollectionExerciseParameter<CollectionValue>) => void
+  >();
+
+  function createSetParameterFunction(
+    id: string,
+  ): (newParameter: CollectionExerciseParameter<CollectionValue>) => void {
+    return (newParameter: ExerciseParameter) => {
+      const i = draftParameters.findIndex((e) => e.id === id);
+      let newDraftParameters = [...draftParameters];
+      newDraftParameters[i] = newParameter;
+      setDraftParameters(newDraftParameters);
+    };
+  }
 
   const dispatch = useDispatch();
 
@@ -93,12 +100,14 @@ export const ExerciseEditScreen = (
         setDraftTagIds={setDraftTagIds}
         setTagModalVisible={setIsTagModalVisible}
       />
+
       <CollectionParameterEditModal
         isVisible={isCollectionParameterEditModalVisible}
         setIsVisible={setIsCollectionParameterEditModalVisible}
-        parameter={setTypeParameterToEdit!}
-        setParameterFunction={setSetTypeParameterToEdit}
+        parameter={collectionParameterToEdit!}
+        setParameterFunction={setCollectionParameterToEdit}
       />
+
       <View style={{flex: 1}}>
         <EditField fieldName={'Title'}>
           <TextInput
@@ -107,6 +116,7 @@ export const ExerciseEditScreen = (
             style={appStyles.bodyText}
           />
         </EditField>
+
         <EditField fieldName={'Tags'}>
           {draftTagIds.map((tagId) => {
             return (
@@ -119,6 +129,7 @@ export const ExerciseEditScreen = (
             <InlineIcon icon={faPlusCircle} />
           </TouchableOpacity>
         </EditField>
+
         <EditField fieldName={'Parameters'}>
           {draftParameters.map((parameter) => {
             return (
@@ -126,25 +137,21 @@ export const ExerciseEditScreen = (
                 key={parameter.id}
                 onPress={() => {
                   console.log('Parameter: ', parameter);
-                  // setSetTypeParameterToEdit(
-                  //   parameter as SetExerciseParameter<SetValue>,
-                  // );
-                  // setSetTypeParameterToEditSetFunction(
-                  //   (newParameter: ExerciseParameter) => {
-                  //     const i = draftParameters.findIndex(
-                  //       (e) => e.id === parameter.id,
-                  //     );
-                  //     let newDraftParameters = [...draftParameters];
-                  //     newDraftParameters[i] = newParameter;
-                  //     setDraftParameters(newDraftParameters);
-                  //   },
-                  // );
+                  setCollectionParameterToEdit(
+                    parameter as CollectionExerciseParameter<CollectionValue>,
+                  );
+                  // Thank you to Hannes Petri for this Medium article:
+                  // https://medium.com/swlh/how-to-store-a-function-with-the-usestate-hook-in-react-8a88dd4eede1
+                  setCollectionParameterToEditSetFunction(() =>
+                    createSetParameterFunction(parameter.id),
+                  );
                   setIsCollectionParameterEditModalVisible(true);
                 }}>
                 <Text>{parameter.title}</Text>
               </TouchableOpacity>
             );
           })}
+
           <TouchableOpacity
             onPress={() => {
               const newParameter: CollectionExerciseParameter<string> = {
