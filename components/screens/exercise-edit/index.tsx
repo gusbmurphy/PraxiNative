@@ -51,7 +51,10 @@ export const ExerciseEditScreen = (
     id: uuid(),
     values: [],
   });
-  const [, setCollectionParameterToEditSetFunction] = useState<
+  const [
+    collectionParameterToEditSetFunction,
+    setCollectionParameterToEditSetFunction,
+  ] = useState<
     (newParameter: CollectionExerciseParameter<CollectionValue>) => void
   >();
 
@@ -105,7 +108,7 @@ export const ExerciseEditScreen = (
         isVisible={isCollectionParameterEditModalVisible}
         setIsVisible={setIsCollectionParameterEditModalVisible}
         parameter={collectionParameterToEdit!}
-        setParameterFunction={setCollectionParameterToEdit}
+        setParameterFunction={collectionParameterToEditSetFunction!}
       />
 
       <View style={{flex: 1}}>
