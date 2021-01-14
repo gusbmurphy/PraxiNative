@@ -54,8 +54,18 @@ describe('Exercises Slice', () => {
       if (i > 0) {
         expect(
           duplicatesState.items[duplicatesState.items.length - 1].title,
-        ).toBe(testTitle + 1);
+        ).toBe(testTitle + ' ' + 1);
       }
     }
+  });
+
+  it('trims any excess white space at the end of a submitted title', () => {
+    const testTitleWithSpaces = testTitle + '   ';
+    let spacesState = reducer(
+      initialState,
+      actions.addExercise({title: testTitleWithSpaces}),
+    );
+
+    expect(spacesState.items[0].title).toBe(testTitle);
   });
 });
