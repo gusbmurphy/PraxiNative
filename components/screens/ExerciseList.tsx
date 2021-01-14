@@ -1,18 +1,10 @@
-import React from 'react';
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
+import React, {useState} from 'react';
+import {FlatList, State, TouchableOpacity} from 'react-native-gesture-handler';
 import {Exercise} from '../../types';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
-import {
-  ListRenderItem,
-  ListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ListRenderItem, ListRenderItemInfo, Text, View} from 'react-native';
 import {exerciseActions} from '../../store/slices/exercises-slice';
-import {v4 as uuid} from 'uuid';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import {RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -27,8 +19,9 @@ export const ExercisesListScreen = ({
   const exercises = useSelector<RootState, Exercise[]>(
     (state) => state.exercises.items,
   );
+  const newestExerciseId = useNewestExerciseId();
 
-  const Item: ListRenderItem<Exercise> = (
+  const ExerciseListEntry: ListRenderItem<Exercise> = (
     info: ListRenderItemInfo<Exercise>,
   ) => {
     return (
@@ -54,10 +47,10 @@ export const ExercisesListScreen = ({
           onPress={() => {
             dispatch(
               exerciseActions.addExercise({
-                title: 'NewTime',
+                title: 'New Exercise',
               }),
             );
-            navigation.navigate('Exercises');
+            navigation.navigate('ExerciseEdit', {id: newestExerciseId});
           }}>
           <FooterIcon icon={faPlusCircle} />
         </TouchableOpacity>
@@ -69,10 +62,16 @@ export const ExercisesListScreen = ({
     <>
       <FlatList<Exercise>
         data={exercises}
-        renderItem={Item}
+        renderItem={ExerciseListEntry}
         ItemSeparatorComponent={Seperator}
       />
       <ScreenFooter />
     </>
   );
 };
+
+function useNewestExerciseId(): string {
+  return useSelector<RootState, string>(
+    (state) => state.exercises.items[state.exercises.items.length - 1].id,
+  );
+}
