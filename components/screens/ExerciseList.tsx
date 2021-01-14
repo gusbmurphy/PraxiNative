@@ -57,7 +57,6 @@ export const ExercisesListScreen = ({
                 title: 'NewTime',
               }),
             );
-            navigation.navigate('Exercises');
           }}>
           <FooterIcon icon={faPlusCircle} />
         </TouchableOpacity>
