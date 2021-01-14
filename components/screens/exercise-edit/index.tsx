@@ -158,7 +158,7 @@ export const ExerciseEditScreen = (
           <TouchableOpacity
             onPress={() => {
               const newParameter: CollectionExerciseParameter<string> = {
-                title: 'New Set',
+                title: 'New Collection',
                 id: uuid(),
                 values: [],
               };
