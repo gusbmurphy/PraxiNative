@@ -3,16 +3,8 @@ import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {Exercise} from '../../types';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
-import {
-  ListRenderItem,
-  ListRenderItemInfo,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ListRenderItem, ListRenderItemInfo, Text, View} from 'react-native';
 import {exerciseActions} from '../../store/slices/exercises-slice';
-import {v4 as uuid} from 'uuid';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import {RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
