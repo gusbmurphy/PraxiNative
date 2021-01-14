@@ -43,19 +43,20 @@ describe('Exercises Slice', () => {
   });
 
   it("appends a number 1 greater than the previous number if this isn't the first duplicate", () => {
-    const numOfDuplicates = Math.floor(1 + Math.random() * 20);
-    let duplicatesState = initialState;
+    const numOfDuplicates = 3;
+    let duplicatesState = reducer(
+      initialState,
+      actions.addExercise({title: testTitle}),
+    );
     for (let i = 0; i < numOfDuplicates; i++) {
       duplicatesState = reducer(
         duplicatesState,
         actions.addExercise({title: testTitle}),
       );
 
-      if (i > 0) {
-        expect(
-          duplicatesState.items[duplicatesState.items.length - 1].title,
-        ).toBe(testTitle + ' ' + 1);
-      }
+      expect(
+        duplicatesState.items[duplicatesState.items.length - 1].title,
+      ).toBe(testTitle + ' ' + (i + 1));
     }
   });
 
