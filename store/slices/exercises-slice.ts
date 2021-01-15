@@ -1,4 +1,3 @@
-import {HeaderTitle} from '@react-navigation/stack';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Exercise} from '../../types';
 import {v4 as uuid} from 'uuid';
@@ -25,19 +24,20 @@ const exercisesSlice = createSlice({
       We'll use a regular expression to ensure that we are finding an item with just the name (as
       opposed to simply including it in a larger string), and possibly a number that we've appended
       to it. */
-      let titleRegExp = new RegExp(`^${title}(?:\s\d+)?$`, 'gi');
+      let titleRegExp = createTitleRegExp(title);
       let indexOfExistingTitle = state.items.findIndex((item) =>
         titleRegExp.test(item.title),
       );
 
       if (indexOfExistingTitle !== -1) {
         let appendedNum = 1;
-        let numRegExp = new RegExp(`^${title}\s{appendedNum}$`);
+        let numRegExp = createNumberedTitleRegExp(title, appendedNum);
 
         while (
-          state.items.findIndex((item) => numRegExp.test(item.title)) != -1
+          state.items.findIndex((item) => numRegExp.test(item.title)) !== -1
         ) {
           appendedNum++;
+          numRegExp = createNumberedTitleRegExp(title, appendedNum);
         }
 
         title += ' ' + appendedNum;
@@ -62,6 +62,14 @@ const exercisesSlice = createSlice({
     },
   },
 });
+
+function createTitleRegExp(title: string) {
+  return new RegExp(String.raw`^${title}(?:\s\d+)?$`, 'gi');
+}
+
+function createNumberedTitleRegExp(title: string, num: number) {
+  return new RegExp(String.raw`^${title}\s${num}$`);
+}
 
 export const exerciseActions = exercisesSlice.actions;
 export default exercisesSlice.reducer;
