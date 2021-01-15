@@ -16,7 +16,6 @@ import {HomeScreen} from './components/screens/Home';
 import {ExercisesListScreen} from './components/screens/ExerciseList';
 import {Provider} from 'react-redux';
 import {store} from './store';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {ExerciseEditScreen} from './components/screens/exercise-edit';
 
 export type RootStackParamList = {
