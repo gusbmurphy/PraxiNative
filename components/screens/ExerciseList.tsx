@@ -8,7 +8,7 @@ import {exerciseActions} from '../../store/slices/exercises-slice';
 import {RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {appStyles} from '../app-styles';
-import {FAB} from 'react-native-paper';
+import {FAB, List, Divider} from 'react-native-paper';
 
 export const ExercisesListScreen = ({
   navigation,
@@ -31,18 +31,17 @@ export const ExercisesListScreen = ({
   const Item: ListRenderItem<Exercise> = (
     info: ListRenderItemInfo<Exercise>,
   ) => {
+    const handlePress = () =>
+      navigation.navigate('ExerciseEdit', {id: info.item.id});
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('ExerciseEdit', {id: info.item.id})}>
-        <Text style={[appStyles.listItem, appStyles.bodyText]}>
-          {info.item.title}
-        </Text>
-      </TouchableOpacity>
+      <List.Item title={info.item.title} onPress={handlePress} />
+      // <TouchableOpacity
+      //   onPress={() => navigation.navigate('ExerciseEdit', {id: info.item.id})}>
+      //   <Text style={[appStyles.listItem, appStyles.bodyText]}>
+      //     {info.item.title}
+      //   </Text>
+      // </TouchableOpacity>
     );
-  };
-
-  const Seperator = () => {
-    return <View style={appStyles.listSeperator} />;
   };
 
   return (
@@ -50,7 +49,7 @@ export const ExercisesListScreen = ({
       <FlatList<Exercise>
         data={exercises}
         renderItem={Item}
-        ItemSeparatorComponent={Seperator}
+        ItemSeparatorComponent={Divider}
       />
       <FAB icon="plus" onPress={handleAddAction} style={appStyles.fab} />
     </>
