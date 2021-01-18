@@ -8,6 +8,6 @@ export const NavigationBar = (props: StackHeaderProps) => (
     {props.previous ? (
       <Appbar.BackAction onPress={props.navigation.goBack} />
     ) : null}
-    <Appbar.Content title="Hello!" />
+    <Appbar.Content title={props.scene.route.name} />
   </Appbar.Header>
 );
