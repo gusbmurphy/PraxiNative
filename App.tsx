@@ -18,6 +18,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider as StoreProvider} from 'react-redux';
 import {store} from './store';
 import {ExerciseEditScreen} from './components/screens/exercise-edit';
+import {NavigationBar} from './components/NavigationBar';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -32,7 +33,8 @@ const App = () => {
       <StoreProvider store={store}>
         <PaperProvider>
           <NavigationContainer>
-            <RootStack.Navigator>
+            <RootStack.Navigator
+              screenOptions={{header: (props) => <NavigationBar {...props} />}}>
               <RootStack.Screen
                 name="Home"
                 component={HomeScreen}
