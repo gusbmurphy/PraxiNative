@@ -41,4 +41,15 @@ export const appStyles = StyleSheet.create({
     right: 16,
     bottom: 28,
   },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 12,
+  },
+  chip: {
+    margin: 4,
+  },
+  textInput: {
+    margin: 8,
+  },
 });
