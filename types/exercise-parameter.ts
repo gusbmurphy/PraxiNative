@@ -17,3 +17,15 @@ export interface CollectionExerciseParameter<T extends CollectionValue>
 export type ExerciseParameter =
   | RangeExerciseParameter
   | CollectionExerciseParameter<any>;
+
+export function isRangeParameter(
+  parameter: any,
+): parameter is RangeExerciseParameter {
+  return 'max' in parameter && 'min' in parameter;
+}
+
+export function isCollectionParameter(
+  parameter: any,
+): parameter is CollectionExerciseParameter<CollectionValue> {
+  return 'values' in parameter;
+}

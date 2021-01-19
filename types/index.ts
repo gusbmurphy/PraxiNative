@@ -1,15 +1,10 @@
-import {Exercise} from './exercise';
-import {Tag} from './tag';
-import {
+import {faPray} from '@fortawesome/free-solid-svg-icons';
+
+export type {Exercise} from './exercise';
+export type {Tag} from './tag';
+export type {
   ExerciseParameter,
   RangeExerciseParameter,
   CollectionExerciseParameter,
 } from './exercise-parameter';
-
-export type {
-  Exercise,
-  Tag,
-  ExerciseParameter,
-  RangeExerciseParameter,
-  CollectionExerciseParameter,
-};
+export {isCollectionParameter, isRangeParameter} from './exercise-parameter';
