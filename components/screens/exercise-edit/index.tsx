@@ -2,12 +2,17 @@ import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useLayoutEffect, useState} from 'react';
 import {Button, Text, View} from 'react-native';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
 import {RootState} from '../../../store';
 import {exerciseActions} from '../../../store/slices/exercises-slice';
-import {CollectionExerciseParameter, Tag} from '../../../types';
+import {
+  CollectionExerciseParameter,
+  Tag,
+  isCollectionParameter,
+  isRangeParameter,
+} from '../../../types';
 import {
   ExerciseParameter,
   CollectionValue,
@@ -18,6 +23,9 @@ import {EditField} from './EditField';
 import CollectionParameterEditModal from './CollectionParameterEditModal';
 import {TagsModal} from './TagsModal';
 import {v4 as uuid} from 'uuid';
+import {TextInput, List, Chip, useTheme, Divider} from 'react-native-paper';
+import color from 'color';
+import {StyledChip, StyledTextInput} from '../../app-styled-components';
 
 export const ExerciseEditScreen = (
   props: StackScreenProps<RootStackParamList, 'ExerciseEdit'>,
@@ -94,6 +102,8 @@ export const ExerciseEditScreen = (
     });
   });
 
+  const {colors} = useTheme();
+
   return (
     <View style={{flex: 1}}>
       <TagsModal
@@ -112,15 +122,15 @@ export const ExerciseEditScreen = (
       />
 
       <View style={{flex: 1}}>
-        <EditField fieldName={'Title'}>
-          <TextInput
-            value={draftTitle}
-            onChangeText={(text) => setDraftTitle(text)}
-            style={appStyles.bodyText}
-          />
-        </EditField>
+        <StyledTextInput
+          mode="outlined"
+          label="Title"
+          value={draftTitle}
+          onChangeText={(text) => setDraftTitle(text)}
+        />
+        <Divider />
 
-        <EditField fieldName={'Tags'}>
+        {/* <EditField fieldName={'Tags'}>
           {draftTagIds.map((tagId) => {
             return (
               <Text style={appStyles.bodyText} key={tagId}>
@@ -131,9 +141,26 @@ export const ExerciseEditScreen = (
           <TouchableOpacity onPress={() => setIsTagModalVisible(true)}>
             <InlineIcon icon={faPlusCircle} />
           </TouchableOpacity>
-        </EditField>
+        </EditField> */}
+        <List.Section title="Tags">
+          <View style={appStyles.row}>
+            {draftTagIds.map((tagId) => (
+              <StyledChip>
+                {allTags.find((tag) => tag.id === tagId)?.title}
+              </StyledChip>
+            ))}
+            <StyledChip
+              mode="outlined"
+              color={colors.primary}
+              icon="plus"
+              onPress={() => setIsTagModalVisible(true)}>
+              Add Tag
+            </StyledChip>
+          </View>
+        </List.Section>
+        <Divider />
 
-        <EditField fieldName={'Parameters'}>
+        {/* <EditField fieldName={'Parameters'}>
           {draftParameters.map((parameter) => {
             return (
               <TouchableOpacity
@@ -166,7 +193,32 @@ export const ExerciseEditScreen = (
             }}>
             <InlineIcon icon={faPlusCircle} />
           </TouchableOpacity>
-        </EditField>
+        </EditField> */}
+        <List.Section title="Parameters">
+          <View style={appStyles.row}>
+            {/* {draftParameters.map((parameter) => {
+            if (isCollectionParameter(parameter)) {
+              return (
+                <List.Accordion title={parameter.title} key={parameter.id}>
+                  {parameter.values.map((value) => (
+                    <List.Item title={value} key={value + parameter.id} />
+                  ))}
+                </List.Accordion>
+              );
+            } else {
+              console.error('Encountered unknown parameter type.');
+              return null;
+            }
+          })} */}
+            <StyledChip
+              mode="outlined"
+              color={colors.primary}
+              icon="plus"
+              onPress={() => {}}>
+              Add Parameter
+            </StyledChip>
+          </View>
+        </List.Section>
       </View>
     </View>
   );
