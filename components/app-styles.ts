@@ -4,13 +4,11 @@ export const appStyles = StyleSheet.create({
   bodyText: {
     fontSize: 18,
   },
-  screenFooter: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    height: 100,
-    backgroundColor: 'white',
-    borderTopWidth: 1,
-    borderTopColor: '#dddddd',
+  bottom: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   listItem: {
     backgroundColor: '#f9f9f9',
@@ -22,16 +20,10 @@ export const appStyles = StyleSheet.create({
     height: 1,
     marginVertical: 10,
   },
-  centeredView: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-  },
   modalView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    //margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -43,5 +35,10 @@ export const appStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  fab: {
+    position: 'absolute',
+    right: 16,
+    bottom: 28,
   },
 });

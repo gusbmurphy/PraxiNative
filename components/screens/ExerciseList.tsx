@@ -5,11 +5,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {ListRenderItem, ListRenderItemInfo, Text, View} from 'react-native';
 import {exerciseActions} from '../../store/slices/exercises-slice';
-import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import {RootStackParamList} from '../../App';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {appStyles} from '../app-styles';
-import {FooterIcon} from '../utility/Icons';
+import {FAB, List, Divider} from 'react-native-paper';
 
 export const ExercisesListScreen = ({
   navigation,
@@ -20,39 +19,28 @@ export const ExercisesListScreen = ({
     (state) => state.exercises.items,
   );
 
-  const Item: ListRenderItem<Exercise> = (
-    info: ListRenderItemInfo<Exercise>,
-  ) => {
-    return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('ExerciseEdit', {id: info.item.id})}>
-        <Text style={[appStyles.listItem, appStyles.bodyText]}>
-          {info.item.title}
-        </Text>
-      </TouchableOpacity>
+  const dispatch = useDispatch();
+  const handleAddAction = () => {
+    dispatch(
+      exerciseActions.addExercise({
+        title: 'New Exercise',
+      }),
     );
   };
 
-  const Seperator = () => {
-    return <View style={appStyles.listSeperator} />;
-  };
-
-  const ScreenFooter = () => {
-    const dispatch = useDispatch();
-
+  const Item: ListRenderItem<Exercise> = (
+    info: ListRenderItemInfo<Exercise>,
+  ) => {
+    const handlePress = () =>
+      navigation.navigate('ExerciseEdit', {id: info.item.id});
     return (
-      <View style={appStyles.screenFooter}>
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(
-              exerciseActions.addExercise({
-                title: 'NewTime',
-              }),
-            );
-          }}>
-          <FooterIcon icon={faPlusCircle} />
-        </TouchableOpacity>
-      </View>
+      <List.Item title={info.item.title} onPress={handlePress} />
+      // <TouchableOpacity
+      //   onPress={() => navigation.navigate('ExerciseEdit', {id: info.item.id})}>
+      //   <Text style={[appStyles.listItem, appStyles.bodyText]}>
+      //     {info.item.title}
+      //   </Text>
+      // </TouchableOpacity>
     );
   };
 
@@ -61,9 +49,9 @@ export const ExercisesListScreen = ({
       <FlatList<Exercise>
         data={exercises}
         renderItem={Item}
-        ItemSeparatorComponent={Seperator}
+        ItemSeparatorComponent={Divider}
       />
-      <ScreenFooter />
+      <FAB icon="plus" onPress={handleAddAction} style={appStyles.fab} />
     </>
   );
 };
