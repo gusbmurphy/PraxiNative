@@ -12,7 +12,13 @@ export const NavigationBar = (props: StackHeaderProps) => {
       {props.previous ? (
         <Appbar.BackAction onPress={props.navigation.goBack} />
       ) : null}
-      <Appbar.Content title={props.scene.route.name} />
+      <Appbar.Content
+        title={
+          props.scene.descriptor.options.title
+            ? props.scene.descriptor.options.title
+            : props.scene.route.name
+        }
+      />
       {rightComponent}
     </Appbar.Header>
   );

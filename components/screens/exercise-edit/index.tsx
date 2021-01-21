@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
@@ -72,6 +72,12 @@ export const ExerciseEditScreen = (
       ),
     });
   });
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      title: 'Editing ' + draftTitle,
+    });
+  }, [props.navigation, draftTitle]);
 
   const {colors} = useTheme();
 
