@@ -109,11 +109,10 @@ export const ExerciseEditScreen = (
 
         <List.Section title="Tags">
           <View style={appStyles.row}>
-            {draftTagIds.map((tagId) => (
-              <StyledChip>
-                {allTags.find((tag) => tag.id === tagId)?.title}
-              </StyledChip>
-            ))}
+            {draftTagIds.map((tagId) => {
+              let tag = allTags.find((tag) => tag.id === tagId);
+              return <StyledChip key={tag?.id}>{tag?.title}</StyledChip>;
+            })}
             <StyledChip
               mode="outlined"
               color={colors.primary}
