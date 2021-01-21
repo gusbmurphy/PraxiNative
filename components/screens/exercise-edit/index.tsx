@@ -1,30 +1,17 @@
-import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useLayoutEffect, useState} from 'react';
-import {Button, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Button, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
 import {RootState} from '../../../store';
 import {exerciseActions} from '../../../store/slices/exercises-slice';
-import {
-  CollectionExerciseParameter,
-  Tag,
-  isCollectionParameter,
-  isRangeParameter,
-} from '../../../types';
-import {
-  ExerciseParameter,
-  CollectionValue,
-} from '../../../types/exercise-parameter';
+import {CollectionExerciseParameter, Tag} from '../../../types';
+import {CollectionValue} from '../../../types/exercise-parameter';
 import {appStyles} from '../../app-styles';
-import {InlineIcon} from '../../utility/Icons';
-import {EditField} from './EditField';
 import CollectionParameterEditModal from './CollectionParameterEditModal';
 import {TagsModal} from './TagsModal';
 import {v4 as uuid} from 'uuid';
-import {TextInput, List, Chip, useTheme, Divider} from 'react-native-paper';
-import color from 'color';
+import {List, useTheme, Divider, Appbar} from 'react-native-paper';
 import {StyledChip, StyledTextInput} from '../../app-styled-components';
 
 export const ExerciseEditScreen = (
@@ -37,9 +24,7 @@ export const ExerciseEditScreen = (
 
   const [draftTitle, setDraftTitle] = useState(originalExercise!.title);
   const [draftTagIds, setDraftTagIds] = useState(originalExercise!.tagIds);
-  const [draftParameters, setDraftParameters] = useState(
-    originalExercise!.parameters,
-  );
+  const [draftParameters] = useState(originalExercise!.parameters);
 
   const allTags = useSelector<RootState, Tag[]>((state) => state.tags.items);
   const [isTagModalVisible, setIsTagModalVisible] = useState(false);
@@ -52,37 +37,24 @@ export const ExerciseEditScreen = (
   /* Since we only have one parameter editing modal, we will need to also
   be able to pass it a different parameter to edit, and a different function
   to set that parameter, when we go to make it visible. */
-  const [collectionParameterToEdit, setCollectionParameterToEdit] = useState<
+  const [collectionParameterToEdit] = useState<
     CollectionExerciseParameter<CollectionValue>
   >({
     title: 'New Set',
     id: uuid(),
     values: [],
   });
-  const [
-    collectionParameterToEditSetFunction,
-    setCollectionParameterToEditSetFunction,
-  ] = useState<
+  const [collectionParameterToEditSetFunction] = useState<
     (newParameter: CollectionExerciseParameter<CollectionValue>) => void
   >();
-
-  function createSetParameterFunction(
-    id: string,
-  ): (newParameter: CollectionExerciseParameter<CollectionValue>) => void {
-    return (newParameter: ExerciseParameter) => {
-      const i = draftParameters.findIndex((e) => e.id === id);
-      let newDraftParameters = [...draftParameters];
-      newDraftParameters[i] = newParameter;
-      setDraftParameters(newDraftParameters);
-    };
-  }
 
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <Button
+        <Appbar.Action
+          icon="content-save"
           onPress={() =>
             dispatch(
               exerciseActions.modifyExercise({
@@ -96,8 +68,23 @@ export const ExerciseEditScreen = (
               }),
             )
           }
-          title={'Save'}
         />
+        // <Button
+        //   onPress={() =>
+        //     dispatch(
+        //       exerciseActions.modifyExercise({
+        //         withId: exerciseId,
+        //         newExercise: {
+        //           id: originalExercise!.id,
+        //           title: draftTitle,
+        //           tagIds: draftTagIds,
+        //           parameters: draftParameters,
+        //         },
+        //       }),
+        //     )
+        //   }
+        //   title={'Save'}
+        // />
       ),
     });
   });
