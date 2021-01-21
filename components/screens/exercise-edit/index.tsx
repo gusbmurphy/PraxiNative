@@ -1,6 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useLayoutEffect, useState} from 'react';
-import {Button, View} from 'react-native';
+import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootStackParamList} from '../../../App';
 import {RootState} from '../../../store';
@@ -69,22 +69,6 @@ export const ExerciseEditScreen = (
             )
           }
         />
-        // <Button
-        //   onPress={() =>
-        //     dispatch(
-        //       exerciseActions.modifyExercise({
-        //         withId: exerciseId,
-        //         newExercise: {
-        //           id: originalExercise!.id,
-        //           title: draftTitle,
-        //           tagIds: draftTagIds,
-        //           parameters: draftParameters,
-        //         },
-        //       }),
-        //     )
-        //   }
-        //   title={'Save'}
-        // />
       ),
     });
   });
@@ -117,18 +101,6 @@ export const ExerciseEditScreen = (
         />
         <Divider />
 
-        {/* <EditField fieldName={'Tags'}>
-          {draftTagIds.map((tagId) => {
-            return (
-              <Text style={appStyles.bodyText} key={tagId}>
-                {allTags.find((tag) => tag.id === tagId)?.title}
-              </Text>
-            );
-          })}
-          <TouchableOpacity onPress={() => setIsTagModalVisible(true)}>
-            <InlineIcon icon={faPlusCircle} />
-          </TouchableOpacity>
-        </EditField> */}
         <List.Section title="Tags">
           <View style={appStyles.row}>
             {draftTagIds.map((tagId) => (
@@ -147,56 +119,8 @@ export const ExerciseEditScreen = (
         </List.Section>
         <Divider />
 
-        {/* <EditField fieldName={'Parameters'}>
-          {draftParameters.map((parameter) => {
-            return (
-              <TouchableOpacity
-                key={parameter.id}
-                onPress={() => {
-                  console.log('Parameter: ', parameter);
-                  setCollectionParameterToEdit(
-                    parameter as CollectionExerciseParameter<CollectionValue>,
-                  );
-                  // Thank you to Hannes Petri for this Medium article:
-                  // https://medium.com/swlh/how-to-store-a-function-with-the-usestate-hook-in-react-8a88dd4eede1
-                  setCollectionParameterToEditSetFunction(() =>
-                    createSetParameterFunction(parameter.id),
-                  );
-                  setIsCollectionParameterEditModalVisible(true);
-                }}>
-                <Text>{parameter.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
-
-          <TouchableOpacity
-            onPress={() => {
-              const newParameter: CollectionExerciseParameter<string> = {
-                title: 'New Collection',
-                id: uuid(),
-                values: [],
-              };
-              setDraftParameters([...draftParameters, newParameter]);
-            }}>
-            <InlineIcon icon={faPlusCircle} />
-          </TouchableOpacity>
-        </EditField> */}
         <List.Section title="Parameters">
           <View style={appStyles.row}>
-            {/* {draftParameters.map((parameter) => {
-            if (isCollectionParameter(parameter)) {
-              return (
-                <List.Accordion title={parameter.title} key={parameter.id}>
-                  {parameter.values.map((value) => (
-                    <List.Item title={value} key={value + parameter.id} />
-                  ))}
-                </List.Accordion>
-              );
-            } else {
-              console.error('Encountered unknown parameter type.');
-              return null;
-            }
-          })} */}
             <StyledChip
               mode="outlined"
               color={colors.primary}
