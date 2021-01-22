@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {Modal, View, Text, Button} from 'react-native';
+import {View} from 'react-native';
 import {Switch, TextInput} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import {tagsActions} from '../../../store/slices/tags-slice';
 import {Tag} from '../../../types';
 import {appStyles} from '../../app-styles';
+import {StyledModal, StyledTextInput} from '../../app-styled-components';
+import {Checkbox, List, Button} from 'react-native-paper';
 
 export const TagsModal = ({
   tagModalVisible,
@@ -24,62 +26,56 @@ export const TagsModal = ({
 
   const dispatch = useDispatch();
 
+  const TagCheckbox = (props: {tag: Tag}) => {
+    let {tag} = props;
+    return (
+      <Checkbox
+        status={draftTagIds.includes(tag.id) ? 'checked' : 'unchecked'}
+        onPress={() => {
+          if (draftTagIds.includes(tag.id)) {
+            setDraftTagIds([...draftTagIds, tag.id]);
+          } else {
+            let i = draftTagIds.findIndex((tagId) => tagId === tag.id);
+            const newDraftTagIds = [...draftTagIds];
+            newDraftTagIds.splice(i, 1);
+            setDraftTagIds(newDraftTagIds);
+          }
+        }}
+      />
+    );
+  };
+
   return (
-    <Modal
-      animationType="slide"
-      visible={tagModalVisible}
-      transparent={true}
-      style={appStyles.centeredView}>
-      <View style={appStyles.modalView}>
-        {allTags.map((tag) => {
-          return (
-            <View style={{flexDirection: 'row'}} key={tag.id}>
-              <Switch
-                onValueChange={(isOn) => {
-                  if (isOn) {
-                    setDraftTagIds([...draftTagIds, tag.id]);
-                  } else {
-                    let i = draftTagIds.findIndex((tagId) => tagId === tag.id);
-                    const newDraftTagIds = [...draftTagIds];
-                    newDraftTagIds.splice(i, 1);
-                    setDraftTagIds(newDraftTagIds);
-                  }
-                }}
-                value={draftTagIds.includes(tag.id)}
-              />
-              <Text>{tag.title}</Text>
-            </View>
-          );
-        })}
-        {showNewTagEdit ? (
-          <TextInput
-            style={{
-              height: 40,
-              minWidth: 100,
-              borderColor: 'gray',
-              borderWidth: 1,
-            }}
-            onChangeText={(text) => setDraftTagTitle(text)}
-            value={draftTagTitle}
-            onSubmitEditing={() => {
-              if (draftTagTitle.length > 0) {
-                dispatch(
-                  tagsActions.addTag({
-                    title: draftTagTitle,
-                    color: 'oops',
-                  }),
-                );
-              }
-              setShowNewTagEdit(false);
-            }}
-          />
-        ) : null}
-        <View style={{flexDirection: 'row'}}>
-          <Button onPress={() => setTagModalVisible(false)} title={'Cancel'} />
-          <Button onPress={() => setShowNewTagEdit(true)} title={'New Tag'} />
-          <Button onPress={() => setTagModalVisible(false)} title={'Save'} />
-        </View>
+    <StyledModal visible={tagModalVisible} dismissable>
+      {allTags.map((tag) => {
+        let {title} = tag;
+        return (
+          <List.Item title={title} left={() => <TagCheckbox tag={tag} />} />
+        );
+      })}
+
+      {showNewTagEdit ? (
+        <StyledTextInput
+          onChangeText={(text) => setDraftTagTitle(text)}
+          value={draftTagTitle}
+          onSubmitEditing={() => {
+            if (draftTagTitle.length > 0) {
+              dispatch(
+                tagsActions.addTag({
+                  title: draftTagTitle,
+                  color: 'oops',
+                }),
+              );
+            }
+            setShowNewTagEdit(false);
+          }}
+        />
+      ) : null}
+      <View style={appStyles.row}>
+        <Button onPress={() => setTagModalVisible(false)}>Cancel</Button>
+        <Button onPress={() => setShowNewTagEdit(true)}>New Tag</Button>
+        <Button onPress={() => setTagModalVisible(false)}>Save</Button>
       </View>
-    </Modal>
+    </StyledModal>
   );
 };
