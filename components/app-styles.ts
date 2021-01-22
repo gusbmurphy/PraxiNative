@@ -46,10 +46,4 @@ export const appStyles = StyleSheet.create({
     flexWrap: 'wrap',
     paddingHorizontal: 12,
   },
-  chip: {
-    margin: 4,
-  },
-  textInput: {
-    margin: 8,
-  },
 });
