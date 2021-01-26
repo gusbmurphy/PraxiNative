@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {Switch, TextInput} from 'react-native-gesture-handler';
+import {FlatList} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {tagsActions} from '../../../store/slices/tags-slice';
 import {Tag} from '../../../types';
@@ -48,9 +48,13 @@ export const TagsModal = ({
   return (
     <StyledModal visible={tagModalVisible} dismissable>
       {allTags.map((tag) => {
-        let {title} = tag;
+        let {title, id} = tag;
         return (
-          <List.Item title={title} left={() => <TagCheckbox tag={tag} />} />
+          <List.Item
+            title={title}
+            left={() => <TagCheckbox tag={tag} />}
+            key={id}
+          />
         );
       })}
 

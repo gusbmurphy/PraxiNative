@@ -11,6 +11,6 @@ const styles = StyleSheet.create({
 
 export const StyledModal = (props: ComponentProps<typeof Modal>) => (
   <Portal>
-    <Modal {...props} style={styles.modal} />
+    <Modal {...props} contentContainerStyle={styles.modal} />
   </Portal>
 );
