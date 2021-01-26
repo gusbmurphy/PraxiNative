@@ -1,12 +1,17 @@
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import React, {useState} from 'react';
-import {Button} from 'react-native';
 import {View, Text, Modal} from 'react-native';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {Caption, Divider, List, Button} from 'react-native-paper';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../store';
 import {ExerciseParameter, CollectionExerciseParameter} from '../../../types';
 import {CollectionValue} from '../../../types/exercise-parameter';
+import {
+  StyledChip,
+  StyledModal,
+  StyledTextInput,
+} from '../../app-styled-components';
 import {appStyles} from '../../app-styles';
 import {InlineIcon} from '../../utility/Icons';
 import {EditField} from './EditField';
@@ -29,20 +34,33 @@ const CollectionParameterEditModal = ({
   const [draftNewValue, setDraftNewValue] = useState('');
   const [shouldShowNewValueField, setShouldShowNewValueField] = useState(false);
 
+  function removeValue(targetId: string) {
+    let i = draftValues.findIndex((value) => value.id === targetId);
+    let newDraftValues = [...draftValues];
+    newDraftValues.splice(i, 1);
+    setDraftValues(newDraftValues);
+  }
+
   return (
-    <Modal
-      animationType="slide"
-      visible={isVisible}
-      transparent={true}
-      style={appStyles.centeredView}>
-      <View style={appStyles.modalView}>
-        <EditField fieldName={'Title'}>
+    // <Modal
+    //   animationType="slide"
+    //   visible={isVisible}
+    //   transparent={true}
+    //   style={appStyles.centeredView}>
+    <StyledModal visible={isVisible}>
+      {/* <EditField fieldName={'Title'}>
           <TextInput
             onChangeText={(text) => setDraftTitle(text)}
             value={draftTitle}
           />
-        </EditField>
-        <EditField fieldName={'Values'}>
+        </EditField> */}
+      <StyledTextInput
+        onChangeText={(text) => setDraftTitle(text)}
+        value={draftTitle}
+        mode="outlined"
+        label="Title"
+      />
+      {/* <EditField fieldName={'Values'}>
           {draftValues.map((value, i) => {
             return <Text key={value + i}>{value}</Text>;
           })}
@@ -63,10 +81,26 @@ const CollectionParameterEditModal = ({
               <InlineIcon icon={faPlusCircle} />
             </TouchableOpacity>
           )}
-        </EditField>
-      </View>
-      <View style={{flexDirection: 'row'}}>
-        <Button onPress={() => setIsVisible(false)} title={'Cancel'} />
+        </EditField> */}
+      <Divider />
+      <List.Section title="Values">
+        {draftValues.length > 1 ? (
+          draftValues.map((value, i) => {
+            return (
+              <StyledChip
+                icon="close-circle"
+                key={value.id}
+                onPress={() => removeValue(value.id)}>
+                {value.content}
+              </StyledChip>
+            );
+          })
+        ) : (
+          <Caption>(None)</Caption>
+        )}
+      </List.Section>
+      <View style={appStyles.row}>
+        <Button onPress={() => setIsVisible(false)}>Cancel</Button>
         <Button
           onPress={() => {
             setParameterFunction({
@@ -75,11 +109,12 @@ const CollectionParameterEditModal = ({
               values: draftValues,
             });
             setIsVisible(false);
-          }}
-          title={'Save'}
-        />
+          }}>
+          Save
+        </Button>
       </View>
-    </Modal>
+    </StyledModal>
+    // </Modal>
   );
 };
 
