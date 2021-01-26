@@ -11,7 +11,7 @@ export interface RangeExerciseParameter extends BaseExerciseParameter {
 export type CollectionValue = string;
 export interface CollectionExerciseParameter<T extends CollectionValue>
   extends BaseExerciseParameter {
-  values: T[];
+  values: {content: T; id: string}[];
 }
 
 export type ExerciseParameter =
