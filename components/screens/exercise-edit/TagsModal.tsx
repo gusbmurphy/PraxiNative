@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
-import {FlatList} from 'react-native';
+import {Switch, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {tagsActions} from '../../../store/slices/tags-slice';
 import {Tag} from '../../../types';
 import {appStyles} from '../../app-styles';
 import {StyledModal, StyledTextInput} from '../../app-styled-components';
-import {Checkbox, List, Button} from 'react-native-paper';
+import {List, Button, Checkbox} from 'react-native-paper';
 
 export const TagsModal = ({
   tagModalVisible,
@@ -26,24 +25,30 @@ export const TagsModal = ({
 
   const dispatch = useDispatch();
 
-  const TagCheckbox = (props: {tag: Tag}) => {
-    let {tag} = props;
-    return (
-      <Checkbox
-        status={draftTagIds.includes(tag.id) ? 'checked' : 'unchecked'}
-        onPress={() => {
-          if (draftTagIds.includes(tag.id)) {
-            setDraftTagIds([...draftTagIds, tag.id]);
-          } else {
-            let i = draftTagIds.findIndex((tagId) => tagId === tag.id);
-            const newDraftTagIds = [...draftTagIds];
-            newDraftTagIds.splice(i, 1);
-            setDraftTagIds(newDraftTagIds);
-          }
-        }}
-      />
-    );
-  };
+  /* TODO: This checkbox should really be used in place of the switch, but it
+  isn't behaving correctly at the moment. */
+
+  // const TagCheckbox = (props: {tag: Tag}) => {
+  //   let {tag} = props;
+  //   let [checked, setChecked] = useState(draftTagIds.includes(tag.id));
+
+  //   return (
+  //     <Checkbox
+  //       status={checked ? 'checked' : 'unchecked'}
+  //       onPress={() => {
+  //         if (checked) {
+  //           setDraftTagIds([...draftTagIds, tag.id]);
+  //         } else {
+  //           let i = draftTagIds.findIndex((tagId) => tagId === tag.id);
+  //           const newDraftTagIds = [...draftTagIds];
+  //           newDraftTagIds.splice(i, 1);
+  //           setDraftTagIds(newDraftTagIds);
+  //         }
+  //         setChecked(!checked);
+  //       }}
+  //     />
+  //   );
+  // };
 
   return (
     <StyledModal visible={tagModalVisible} dismissable>
@@ -52,7 +57,22 @@ export const TagsModal = ({
         return (
           <List.Item
             title={title}
-            left={() => <TagCheckbox tag={tag} />}
+            left={() => (
+              // <TagCheckbox tag={tag} />
+              <Switch
+                onValueChange={(isOn) => {
+                  if (isOn) {
+                    setDraftTagIds([...draftTagIds, tag.id]);
+                  } else {
+                    let i = draftTagIds.findIndex((tagId) => tagId === tag.id);
+                    const newDraftTagIds = [...draftTagIds];
+                    newDraftTagIds.splice(i, 1);
+                    setDraftTagIds(newDraftTagIds);
+                  }
+                }}
+                value={draftTagIds.includes(tag.id)}
+              />
+            )}
             key={id}
           />
         );
@@ -67,10 +87,11 @@ export const TagsModal = ({
               dispatch(
                 tagsActions.addTag({
                   title: draftTagTitle,
-                  color: 'oops',
+                  color: 'testColor',
                 }),
               );
             }
+            setDraftTagTitle('');
             setShowNewTagEdit(false);
           }}
         />
