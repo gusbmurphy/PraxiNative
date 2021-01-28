@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {Caption, Divider, List, Button} from 'react-native-paper';
+import {Caption, Divider, List, Button, ToggleButton} from 'react-native-paper';
 import {CollectionExerciseParameter} from '../../../types';
 import {CollectionValue} from '../../../types/exercise-parameter';
 import {
@@ -26,6 +26,8 @@ const CollectionParameterEditModal = ({
   const [draftTitle, setDraftTitle] = useState(parameter.title);
   const [draftValues, setDraftValues] = useState(parameter.values);
 
+  const [parameterType, setParameterType] = useState();
+
   function removeValue(targetId: string) {
     let i = draftValues.findIndex((value) => value.id === targetId);
     let newDraftValues = [...draftValues];
@@ -35,6 +37,7 @@ const CollectionParameterEditModal = ({
 
   return (
     <StyledModal visible={isVisible}>
+      <ToggleButton.Row></ToggleButton.Row>
       <StyledTextInput
         onChangeText={(text) => setDraftTitle(text)}
         value={draftTitle}
