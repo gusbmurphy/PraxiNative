@@ -1,11 +1,7 @@
-import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import React, {useState} from 'react';
-import {View, Text, Modal} from 'react-native';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {View} from 'react-native';
 import {Caption, Divider, List, Button} from 'react-native-paper';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../store';
-import {ExerciseParameter, CollectionExerciseParameter} from '../../../types';
+import {CollectionExerciseParameter} from '../../../types';
 import {CollectionValue} from '../../../types/exercise-parameter';
 import {
   StyledChip,
@@ -13,8 +9,6 @@ import {
   StyledTextInput,
 } from '../../app-styled-components';
 import {appStyles} from '../../app-styles';
-import {InlineIcon} from '../../utility/Icons';
-import {EditField} from './EditField';
 
 type CollectionParameterEditModalProps<T extends CollectionValue> = {
   isVisible: boolean;
@@ -31,8 +25,8 @@ const CollectionParameterEditModal = ({
 }: CollectionParameterEditModalProps<any>) => {
   const [draftTitle, setDraftTitle] = useState(parameter.title);
   const [draftValues, setDraftValues] = useState(parameter.values);
-  const [draftNewValue, setDraftNewValue] = useState('');
-  const [shouldShowNewValueField, setShouldShowNewValueField] = useState(false);
+  const [] = useState('');
+  const [] = useState(false);
 
   function removeValue(targetId: string) {
     let i = draftValues.findIndex((value) => value.id === targetId);
@@ -85,7 +79,7 @@ const CollectionParameterEditModal = ({
       <Divider />
       <List.Section title="Values">
         {draftValues.length > 1 ? (
-          draftValues.map((value, i) => {
+          draftValues.map((value) => {
             return (
               <StyledChip
                 icon="close-circle"
