@@ -8,7 +8,7 @@ import {exerciseActions} from '../../../store/slices/exercises-slice';
 import {CollectionExerciseParameter, Tag} from '../../../types';
 import {CollectionValue} from '../../../types/exercise-parameter';
 import {appStyles} from '../../app-styles';
-import CollectionParameterEditModal from './CollectionParameterEditModal';
+import CollectionParameterEditModal from './ParameterEditModal';
 import {TagsModal} from './TagsModal';
 import {v4 as uuid} from 'uuid';
 import {List, useTheme, Divider, Appbar} from 'react-native-paper';
@@ -110,7 +110,7 @@ export const ExerciseEditScreen = (
         <List.Section title="Tags">
           <View style={appStyles.row}>
             {draftTagIds.map((tagId) => {
-              let tag = allTags.find((tag) => tag.id === tagId);
+              let tag = allTags.find((e) => e.id === tagId);
               return <StyledChip key={tag?.id}>{tag?.title}</StyledChip>;
             })}
             <StyledChip
@@ -130,7 +130,9 @@ export const ExerciseEditScreen = (
               mode="outlined"
               color={colors.primary}
               icon="plus"
-              onPress={() => {}}>
+              onPress={() => {
+                setIsCollectionParameterEditModalVisible(true);
+              }}>
               Add Parameter
             </StyledChip>
           </View>
