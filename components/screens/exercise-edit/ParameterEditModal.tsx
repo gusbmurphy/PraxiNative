@@ -25,8 +25,6 @@ const CollectionParameterEditModal = ({
 }: CollectionParameterEditModalProps<any>) => {
   const [draftTitle, setDraftTitle] = useState(parameter.title);
   const [draftValues, setDraftValues] = useState(parameter.values);
-  const [] = useState('');
-  const [] = useState(false);
 
   function removeValue(targetId: string) {
     let i = draftValues.findIndex((value) => value.id === targetId);
@@ -36,46 +34,13 @@ const CollectionParameterEditModal = ({
   }
 
   return (
-    // <Modal
-    //   animationType="slide"
-    //   visible={isVisible}
-    //   transparent={true}
-    //   style={appStyles.centeredView}>
     <StyledModal visible={isVisible}>
-      {/* <EditField fieldName={'Title'}>
-          <TextInput
-            onChangeText={(text) => setDraftTitle(text)}
-            value={draftTitle}
-          />
-        </EditField> */}
       <StyledTextInput
         onChangeText={(text) => setDraftTitle(text)}
         value={draftTitle}
         mode="outlined"
         label="Title"
       />
-      {/* <EditField fieldName={'Values'}>
-          {draftValues.map((value, i) => {
-            return <Text key={value + i}>{value}</Text>;
-          })}
-          {shouldShowNewValueField ? (
-            <TextInput
-              value={draftNewValue}
-              onChangeText={(text) => setDraftNewValue(text)}
-              onSubmitEditing={() => {
-                if (draftNewValue !== '') {
-                  setDraftValues([...draftValues, draftNewValue]);
-                  setDraftNewValue('');
-                }
-                setShouldShowNewValueField(false);
-              }}
-            />
-          ) : (
-            <TouchableOpacity onPress={() => setShouldShowNewValueField(true)}>
-              <InlineIcon icon={faPlusCircle} />
-            </TouchableOpacity>
-          )}
-        </EditField> */}
       <Divider />
       <List.Section title="Values">
         {draftValues.length > 1 ? (
@@ -108,7 +73,6 @@ const CollectionParameterEditModal = ({
         </Button>
       </View>
     </StyledModal>
-    // </Modal>
   );
 };
 
