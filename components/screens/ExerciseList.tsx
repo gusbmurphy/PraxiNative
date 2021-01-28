@@ -10,7 +10,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {appStyles} from '../app-styles';
 import {FAB, List, Divider} from 'react-native-paper';
 
-export const ExercisesListScreen = ({
+export const ExerciseListScreen = ({
   navigation,
 }: {
   navigation: StackNavigationProp<RootStackParamList, 'Exercises'>;

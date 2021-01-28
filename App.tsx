@@ -3,7 +3,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {HomeScreen} from './components/screens/Home';
-import {ExercisesListScreen} from './components/screens/ExerciseList';
+import {ExerciseListScreen} from './components/screens/ExerciseList';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider as StoreProvider} from 'react-redux';
 import {store} from './store';
@@ -32,7 +32,7 @@ const App = () => {
               />
               <RootStack.Screen
                 name="Exercises"
-                component={ExercisesListScreen}
+                component={ExerciseListScreen}
               />
               <RootStack.Screen
                 name="ExerciseEdit"
