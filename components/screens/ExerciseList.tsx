@@ -51,7 +51,12 @@ export const ExerciseListScreen = ({
         renderItem={Item}
         ItemSeparatorComponent={Divider}
       />
-      <FAB icon="plus" onPress={handleAddAction} style={appStyles.fab} />
+      <FAB
+        icon="plus"
+        onPress={handleAddAction}
+        style={appStyles.fab}
+        accessibilityLabel="Add a new exercise."
+      />
     </>
   );
 };
