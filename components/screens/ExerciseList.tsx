@@ -50,12 +50,13 @@ export const ExerciseListScreen = ({
         data={exercises}
         renderItem={Item}
         ItemSeparatorComponent={Divider}
+        accessibilityLabel="list of exercises"
       />
       <FAB
         icon="plus"
         onPress={handleAddAction}
         style={appStyles.fab}
-        accessibilityLabel="Add a new exercise."
+        accessibilityLabel="add new exercise"
       />
     </>
   );

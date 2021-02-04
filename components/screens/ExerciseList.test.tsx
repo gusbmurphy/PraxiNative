@@ -26,9 +26,10 @@ describe('Exercise List Screen', () => {
     </StoreProvider>
   );
 
+  const {getByA11yLabel, findByText} = render(screen);
+
   it("has a button that adds a new exercise to the store when it's pressed", async () => {
-    const {getByA11yLabel} = render(screen);
-    const button = getByA11yLabel('Add a new exercise.');
+    const button = getByA11yLabel('add new exercise');
 
     await waitFor(() => expect(button).toBeTruthy());
 
@@ -40,5 +41,10 @@ describe('Exercise List Screen', () => {
     await waitFor(() =>
       expect(exercisesState.items[0].title).toBe('New Exercise'),
     );
+  });
+
+  it('adds an entry for that new exercise', async () => {
+    const exerciseEntry = findByText('New Exercise');
+    await waitFor(() => expect(exerciseEntry).toBeTruthy());
   });
 });
