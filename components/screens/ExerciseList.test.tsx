@@ -4,12 +4,19 @@ import {store} from '../../store';
 import {Provider as StoreProvider} from 'react-redux';
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from '../../App';
-import {fireEvent, render, waitFor} from '@testing-library/react-native';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 
 // Silence the warning https://github.com/facebook/react-native/issues/11094#issuecomment-263240420
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
+
+afterAll(cleanup);
 
 describe('Exercise List Screen', () => {
   const RootStack = createStackNavigator<RootStackParamList>();
@@ -43,8 +50,11 @@ describe('Exercise List Screen', () => {
     );
   });
 
+  const exerciseEntry = findByText('New Exercise');
+
   it('adds an entry for that new exercise', async () => {
-    const exerciseEntry = findByText('New Exercise');
     await waitFor(() => expect(exerciseEntry).toBeTruthy());
   });
+
+  it('navigates to the exercise edit screen when the entry is pressed', async () => {});
 });
